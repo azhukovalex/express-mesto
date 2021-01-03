@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: { // опишем свойство validate
       validator(v) { // validator - функция проверки данных. v - значение свойства avatar
-        return /^(http[s]?:\/\/){0,1}[(w{3,3}\.)]?[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/g.test(v);
+        return /^((http|https):\/\/(www\.)?([\w\W]{1,})\.([a-zA-z]{2,10})([\w\W]{1,})?(#)?)$/.test(v);
       },
       message: 'Неправильный URL!', // когда validator вернёт false, будет использовано это сообщение
     },

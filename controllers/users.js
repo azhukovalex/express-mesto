@@ -13,9 +13,9 @@ const getProfile = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.message === 'NotValidId') {
+      if (err.name === 'NotValidId') {
         res.status(404).send({ message: 'Нет пользователя с таким Id' });
-      } else if (err.name === 'ValidationError') {
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: `Введены некорректные данные: ${err}` });
       } else {
         res.status(500).send({ message: `Внутренняя ошибка сервера: ${err}` });
@@ -26,12 +26,11 @@ const getProfile = (req, res) => {
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .orFail(new Error('ValidationError'))
     .then((user) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ReferenceError') {
         res.status(400).send({ message: `Ошибка при валидации: ${err}` });
       } else {
         res.status(500).send({ message: `Внутренняя ошибка сервера: ${err}` });
@@ -52,12 +51,12 @@ const updateUser = (req, res) => {
       runValidators: true, // данные будут валидированы перед изменением
     },
   )
-    .orFail(new Error('ValidationError'))
+    .orFail()
     .then((newUser) => {
       res.status(200).send(newUser);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         res.status(400).send({ message: `Ошибка при валидации: ${err}` });
       } else {
         res.status(500).send({ message: `Внутренняя ошибка сервера: ${err}` });
