@@ -13,7 +13,7 @@ const getProfile = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'NotValidId') {
+      if (err.message === 'NotValidId') {
         res.status(404).send({ message: 'Нет пользователя с таким Id' });
       } else if (err.name === 'CastError') {
         res.status(400).send({ message: `Введены некорректные данные: ${err}` });
@@ -30,7 +30,7 @@ const createUser = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ReferenceError') {
+      if (err.name === 'ValidationError') {
         res.status(400).send({ message: `Ошибка при валидации: ${err}` });
       } else {
         res.status(500).send({ message: `Внутренняя ошибка сервера: ${err}` });
@@ -56,7 +56,7 @@ const updateUser = (req, res) => {
       res.status(200).send(newUser);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         res.status(400).send({ message: `Ошибка при валидации: ${err}` });
       } else {
         res.status(500).send({ message: `Внутренняя ошибка сервера: ${err}` });
