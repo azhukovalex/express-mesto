@@ -29,7 +29,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "mongoose": "^5.11.8",
-    "validator": "^13.1.1"
+    "validator": "^13.7.0"
   },
   "keywords": []
 }
